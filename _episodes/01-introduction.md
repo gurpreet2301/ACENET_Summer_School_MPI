@@ -1,13 +1,7 @@
 ---
 title: "Hello, MPI World!"
-teaching: 0
-exercises: 0
-questions:
-- "Key question"
-objectives:
-- "First objective."
-keypoints:
-- "First key point."
+teaching: 10
+exercises: 15
 ---
 ## MPI is a *Library* for Message-Passing
 
@@ -93,8 +87,6 @@ MPI_Finalize()
 
 ## Hello World
 - The obligatory starting point
-- cd mpi/mpi-intro
-- Type it in, compile and run it together
 
 **C**   
 
@@ -136,18 +128,21 @@ end program helloworld
 
 ```
 
-**compile and run it together**
-
-```
-$ mpif90 hello-world.f90
--o hello-world
-or 
-$ mpicc hello-world.c
--o hello-world
-
-
-$ mpirun -np 1 hello-world
-$ mpirun -np 2 hello-world
-$ mpirun -np 8 hello-world
-
-```
+> ## Compile and run it
+> Pick a language and type in the code. You'll learn more if you don't cut and paste!
+> Compile it with `mpicc` or `mpif90` then run the result with `mpirun`. 
+>
+> > ## Solution
+> > ```
+> > $ cd mpi/mpi-intro
+> > 
+> > $ mpif90 hello-world.f90 -o hello-world
+> > or 
+> > $ mpicc hello-world.c -o hello-world
+> > 
+> > $ mpirun -np 1 hello-world
+> > $ mpirun -np 2 hello-world
+> > $ mpirun -np 8 hello-world
+> > ```
+> {: .solution}
+{: .challenge}
