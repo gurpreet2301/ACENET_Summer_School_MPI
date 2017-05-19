@@ -1,15 +1,21 @@
 ---
 title: "More than two processes"
-teaching: 5
-exercises: 10
+teaching: 10
+exercises: 15
+keypoints:
+- "A typical MPI process calculates which other processes it will communicate with."
+- "If there is a closed loop of procs sending to one another, there is a risk of deadlock."
+- "All sends and receives must be paired, **at time of sending**."
 ---
 
 ## More complicated example:
--  Let's look at secondmessage.f90, secondmessage.c
--  MPI programs routinely work with thousands of processors.
--  if rank == 0... if rank == 1... if rank == 2...  gets a little tedious around rank=397.
--  More typical programs: calculate the ranks you need to communicate with, and then communicate with them.
--  Let's see how that works.
+- Let's look at secondmessage.f90, secondmessage.c
+- MPI programs routinely work with thousands of processors.
+- if rank == 0... if rank == 1... if rank == 2...  gets a little tedious around rank=397.
+- More typical programs: calculate the ranks you need to communicate with, and then communicate with them.
+- Let's see how that works.
+- Imagine procs in a line. Calculate left neighbour, right neighbour.
+- Pass a number (let's use squared rank) to right neighbour, receive it from left.
 - **C**:
 
 ```
@@ -86,9 +92,6 @@ implicit none
 
 end program secondmessage
 ```
-- Calculate left neighbour, right neighbour
-- pass rank<sup>2</sup> to right neighbour, receive it from left.
- 
 
 ## Compile and run
 
@@ -104,4 +107,43 @@ $ mpirun -np 4 ./secondmessage
 ```
 
 ![Results of secondmessage](../fig/hello.png)
+
+## Implement periodic boundary conditions
+
+- `cp secondmessage.{c,f90} thirdmessage.{c,f90}`
+- edit so it `wraps around': rank (size-1) sends to rank 0, rank 0 receives from size-1.
+- mpi{cc,f90} thirdmessage.{c,f90} -o thirdmessage
+- mpirun -np 3 thirdmessage
+
+![Implementperiodicboundary](../fig/Implementperiodicboundary.png)
+
+- In Fortran, that might look like this:
+
+```
+left = rank-1   
+if(left < 0) left = comsize-1  
+right = rank + 1
+if(right >= comsize ) right =0  
+
+call MPI_Ssend(msgsent, 1, MPI_DOUBLE_PRECISION,right, & tag, MPI_COMM_WORLD,ierr)  
+call MPI_Recv(msgrcvd, 1, MPI_DOUBLE_PRECISION,left, & tag, MPI_COMM_WORLD,status,ierr)
+```
+- And similarly in C.
+- So what happens?
+
+![send recieve](../fig/sendreciev.png)
+
+![processview](../fig/processview.png)
+
+
+## Deadlock
+* A classic parallel bug
+* Occurs when a cycle of tasks are for the others to finish.
+* Whenever you see a closed cycle, you likely have (or risk) deadlock.
+
+![deadlock](../fig/deadlock.png)
+
+# Big MPI Lesson #1
+
+All sends and receives must be paired, **at time of sending**
 
