@@ -18,3 +18,12 @@ You should obtain the example programs and exercise templates by
 cloning the following repository from GitHub into your ACENET account:
 
 ``` $ git clone https://github.com/rmdickson/mpi-tutorial.git ```
+
+Then, start an interactive shell on an ACENET computer node:
+
+``` $ qrsh -cwd -pe openmp 4 -l h_rt=10:00:00 bash ```
+
+Finally, ensure you have suitable environment modules loaded so you'll
+be able to run mpirun and mpicc or mpif90:
+
+``` $ module purge; module load gcc openmpi/gcc ```
