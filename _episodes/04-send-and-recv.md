@@ -41,26 +41,25 @@ call MPI_RECV(rcvarr, count, MPI_TYPE, source, tag,Communicator, status, ierr)
 int main(int argc, char **argv)
  {
     int rank, size,ierr;
-	int sendto, recvfrom;       /* task to send,recv from */
-	int ourtag=1;		        /* shared tag to label msgs */
-	char sendmessage[]="Hello"; /* text to send */
-	char getmessage[6];         /* text to recieve */
-	MPI_Status rstatus;         /* MPI_Recv status info */
+    int sendto, recvfrom;       /* task to send,recv from */
+    int ourtag=1;		/* shared tag to label msgs */
+    char sendmessage[]="Hello"; /* text to send */
+    char getmessage[6];         /* text to recieve */
+    MPI_Status rstatus;         /* MPI_Recv status info */
 
-    iret=MPI_Init(&argc,&argv);
-    iret=MPI_Comm_size(MPI_COMM_WORLD, &size);
-    iret=MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    ierr = MPI_Init(&argc,&argv);
+    ierr = MPI_Comm_size(MPI_COMM_WORLD, &size);
+    ierr = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if(rank ==0){
-	    sendto =1;
-	    ierr= MPI_Ssend(sendmessage, 6, MPI_CHAR, sendto, ourtag, MPI_COMM_WORLD);
-
-	printf("%d: sentmessage <%s>\n",rank, sendmessage);
-    }else if(rank ==1){
-       recvfrom =1;
-	 ierr= MPI_Recv(getmessage, 6, MPI_CHAR, recvfrom, ourtag, MPI_COMM_WORLD, &rstatus);
-
-	printf("%d: Got message <%s>\n",rank, getmessage);
+    if (rank == 0) {
+        sendto = 1;
+        ierr = MPI_Ssend(sendmessage, 6, MPI_CHAR, sendto, ourtag, MPI_COMM_WORLD);
+        printf("%d: Sent message <%s>\n",rank, sendmessage);
+    }
+    else if (rank == 1) {
+        recvfrom = 0;
+        ierr = MPI_Recv(getmessage, 6, MPI_CHAR, recvfrom, ourtag, MPI_COMM_WORLD, &rstatus);
+        printf("%d: Got message  <%s>\n",rank, getmessage);
     }
   
     MPI_Finalize();
@@ -82,30 +81,28 @@ program firstmessage
     implicit none
     integer :: rank, comsize, ierr
     integer :: sendto, recvfrom  ! task to send,recv from 
-    integer :: ourtag=1 ! shared tag to label msgs
-    character(5) :: sendmessage ! text to send
-    character(5) :: getmessage ! text to recieve 
-    integer, dimension(MPI_STATUS_SIZE) :: RSTATUS
+    integer :: ourtag=1          ! shared tag to label msgs
+    character(5) :: sendmessage  ! text to send
+    character(5) :: getmessage   ! text to recieve 
+    integer, dimension(MPI_STATUS_SIZE) :: rstatus
         
     call MPI_Init(ierr)
     call MPI_Comm_size(MPI_COMM_WORLD, comsize, ierr)
     call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
     
-    if(rank ==0) then
-    	sendmessage='hello'
-    	sendto =1;
-    	ierr= MPI_Ssend(sendmessage, 5, MPI_CHAR, sendto, ourtag,MPI_COMM_WORLD,ierr) 
-   
-    	print *,rank, 'sentmessage <',sendmessage,'>'
-   else if(rank ==1) then
-    	recvfrom =1;
-    	ierr= MPI_Recv(getmessage, 5, MPI_CHAR, recvfrom, ourtag, MPI_COMM_WORLD, rstatus,ierr)
-    
-    	print *,rank, 'got message <',getmessage,'>'
+    if(rank == 0) then
+        sendmessage='hello'
+        sendto = 1;
+        call MPI_Ssend(sendmessage, 5, MPI_CHARACTER, sendto, ourtag,MPI_COMM_WORLD,ierr) 
+        print *,rank, 'sent message <',sendmessage,'>'
+    else if(rank == 1) then
+        recvfrom = 0;
+        call MPI_Recv(getmessage, 5, MPI_CHARACTER, recvfrom, ourtag, MPI_COMM_WORLD, rstatus,ierr)
+        print *,rank, 'got message  <',getmessage,'>'
     endif
     
     call MPI_Finalize(ierr)
-end program helloworld
+end program firstmessage
 ```
 
 ## Wildcard sources and destinations

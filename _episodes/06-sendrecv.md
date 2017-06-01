@@ -15,10 +15,6 @@ keypoints:
 - Two orthogonal ideas: buffering and blocking.
 - The issue in the previous code was **blocking**: Send could not make progress until receive started, but everyone was sending but no one is receiving.
 
-![buffering PICTURE MISSING]()
-
-![non blocking](../fig/nonblocking.png)
-
 ## Buffering is dangerous!
 - Worst kind of danger: will usually work.
 - Think voice mail; message sent, reader reads when ready
@@ -38,50 +34,49 @@ keypoints:
 
 ```
 program fourthmessage
-implicit none
 use mpi
-
+implicit none
 
     integer :: ierr, rank, comsize
     integer :: left, right
     integer :: tag
     integer :: status(MPI_STATUS_SIZE)
     double precision :: msgsent, msgrcvd
-
     
-	call MPI_Init(ierr)
-	call MPI_Comm_size(MPI_COMM_WORLD, comsize, ierr)
-	call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
+    call MPI_Init(ierr)
+    call MPI_Comm_size(MPI_COMM_WORLD, comsize, ierr)
+    call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
 
-	left= rank-1
-	if(left <0) left =comsize-1
-	right= rank +1
-	if(right >=comsize) right =0
+    left = rank-1
+    if (left <0) left = comsize-1
+    right = rank+1
+    if (right >=comsize) right = 0
 
-	msgsent= rank*rank
-	msgrcvd= -999.
-	tag=1
+    msgsent= rank*rank
+    msgrcvd= -999.
+    tag=1
 
-	if(mod(rank,2) ==0) then
-	    call MPI_Ssend(msgsent, 1, MPI_DOUBLE_PRECISION,right, &
-	                  tag, MPI_COMM_WORLD,ierr)  
-	    call MPI_Recv(msgrcvd, 1, MPI_DOUBLE_PRECISION,left, &
-	                  tag, MPI_COMM_WORLD,status,ierr)
- 	else 
-	    call MPI_Recv(msgrcvd, 1, MPI_DOUBLE_PRECISION,left, &
-	                  tag, MPI_COMM_WORLD,status,ierr)	    call MPI_Ssend(msgsent, 1, MPI_DOUBLE_PRECISION,right, &
-	                  tag, MPI_COMM_WORLD,ierr)
-	end if
+    if (mod(rank,2) == 0) then
+        call MPI_Ssend(msgsent, 1, MPI_DOUBLE_PRECISION,right, &
+                      tag, MPI_COMM_WORLD,ierr)  
+        call MPI_Recv(msgrcvd, 1, MPI_DOUBLE_PRECISION,left, &
+                      tag, MPI_COMM_WORLD,status,ierr)
+     else 
+        call MPI_Recv(msgrcvd, 1, MPI_DOUBLE_PRECISION,left, &
+                      tag, MPI_COMM_WORLD,status,ierr)	    
+        call MPI_Ssend(msgsent, 1, MPI_DOUBLE_PRECISION,right, &
+                      tag, MPI_COMM_WORLD,ierr)
+    end if
  
-	print *, rank, 'Sent ', msgsent, 'and recvd ', msgrcvd
-	call MPI_Finalize(ierr)
+    print *, rank, 'Sent ', msgsent, 'and recvd ', msgrcvd
+    call MPI_Finalize(ierr)
 end program fourthmessage
 ```
 
 - In if condition even sends first
 - And on else condition odd sends.
 
-**Following is a c program for fourth message**
+**Following is a C program for fourth message**
   
 ```
 #include <stdio.h>
@@ -100,28 +95,20 @@ int main(int argc, char **argv) {
 
     left = rank-1;
     if (left < 0) left =size-1;
-    	right = rank+1;
+    right = rank+1;
     if (right == size) right = 0;
-        msgsent = rank*rank;
-        msgrcvd = -999.;
+    msgsent = rank*rank;
+    msgrcvd = -999.;
 
-    if(rank % 2 ==0)
-	{
+    if(rank % 2 ==0) {
 	ierr = MPI_Ssend(&msgsent, 1, MPI_DOUBLE, right,tag, MPI_COMM_WORLD); 
-                     
-    ierr = MPI_Recv(&msgrcvd, 1, MPI_DOUBLE, left,tag, MPI_COMM_WORLD, &rstatus); 
-                     
+        ierr = MPI_Recv(&msgrcvd, 1, MPI_DOUBLE, left,tag, MPI_COMM_WORLD, &rstatus); 
 	}
-    
-    else
-    {
+    else {
 	ierr = MPI_Recv(&msgrcvd, 1, MPI_DOUBLE, left,tag, MPI_COMM_WORLD, &rstatus); 
-                     
 	ierr = MPI_Ssend(&msgsent, 1, MPI_DOUBLE, right,tag, MPI_COMM_WORLD); 
-                     
 	}
-    printf("%d: Sent %lf and got %lf\n", 
-                rank, msgsent, msgrcvd);
+    printf("%d: Sent %lf and got %lf\n", rank, msgsent, msgrcvd);
 
     ierr = MPI_Finalize();
     return 0;
@@ -144,7 +131,7 @@ int main(int argc, char **argv) {
 int main(int argc, char **argv) {
     int rank, size, ierr;
     int left, right;
-    int tag=1;
+    int tag = 1;
     double msgsent, msgrcvd;
     MPI_Status rstatus;
 
@@ -153,59 +140,56 @@ int main(int argc, char **argv) {
     ierr = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     left = rank-1;
-    if (left < 0) left =size-1;
+    if (left < 0) left = size-1;
     right = rank+1;
     if (right == size) right = 0;
 
     msgsent = rank*rank;
     msgrcvd = -999.;
+
+    ierr=MPI_Sendrecv(&msgsent, 1, MPI_DOUBLE, right, tag, &msgrcvd, 1,
+                      MPI_DOUBLE, left, tag, MPI_COMM_WORLD, &rstatus );
 	
-	ierr=MPI_Sendrecv(&msgsent, 1, MPI_DOUBLE, right,tag, &msgrcvd, 1,MPI_DOUBLE, left,tag,, MPI_COMM_WORLD, 	&rstatus );
-	
-	printf("%d: Sent %lf and got %lf\n", rank, msgsent, msgrcvd);
+    printf("%d: Sent %lf and got %lf\n", rank, msgsent, msgrcvd);
 
     ierr = MPI_Finalize();
     return 0;
 }
-
-
 ```
 
 **Following is a fortran program for sendrecieve.**
 
 ```
 program fifthmessage
-implicit none
 use mpi
+implicit none
 
     integer :: ierr, rank, comsize
     integer :: left, right
     integer :: tag
     integer :: status(MPI_STATUS_SIZE)
     double precision :: msgsent, msgrcvd
-
     
-	call MPI_Init(ierr)
-	call MPI_Comm_size(MPI_COMM_WORLD, comsize, ierr)
-	call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
+    call MPI_Init(ierr)
+    call MPI_Comm_size(MPI_COMM_WORLD, comsize, ierr)
+    call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
 
-	left= rank-1
-	if(left <0) left =comsize-1
-	right= rank +1
-	if(right >=comsize) right =0
+    left = rank-1
+    if (left <0) left = comsize-1
+    right= rank+1
+    if (right >=comsize) right = 0
 
-	msgsent= rank*rank
-	msgrcvd= -999.
-	tag=1
-
-	
-	call MPI_Sendrecv(msgsent, 1, MPI_DOUBLE_PRECISION,right, tag,&msgrcvd, 1, MPI_DOUBLE_PRECISION,left, tag, &MPI_COMM_WORLD,status,ierr)
-	
+    msgsent= rank*rank
+    msgrcvd= -999.
+    tag=1
+    
+    call MPI_Sendrecv(msgsent, 1, MPI_DOUBLE_PRECISION, right, tag, &
+                      msgrcvd, 1, MPI_DOUBLE_PRECISION, left,  tag, &
+                      MPI_COMM_WORLD, status, ierr)
  
-	print *, rank, 'Sent ', msgsent, 'and recvd ', msgrcvd
-	call MPI_Finalize(ierr)
-	end program fifthmessage
-	
+    print *, rank, 'Sent ', msgsent, 'and recvd ', msgrcvd
+    call MPI_Finalize(ierr)
+end program fifthmessage
 ```
 
 ## Sendrecv = Send + Recv

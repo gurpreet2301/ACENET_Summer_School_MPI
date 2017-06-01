@@ -25,7 +25,7 @@ keypoints:
 int main(int argc, char **argv) {
     int rank, size, ierr;
     int left, right;
-    int tag=1;
+    int tag = 1;
     double msgsent, msgrcvd;
     MPI_Status rstatus;
 
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     left = rank-1;
     if (left < 0) left = MPI_PROC_NULL;
     right = rank+1;
-    if (right == size) right = MPI_PROC_NULL;
+    if (right >= size) right = MPI_PROC_NULL;
 
     msgsent = rank*rank;
     msgrcvd = -999.;
@@ -44,10 +44,8 @@ int main(int argc, char **argv) {
     ierr = MPI_Ssend(&msgsent, 1, MPI_DOUBLE, right,tag, MPI_COMM_WORLD); 
                      
     ierr = MPI_Recv(&msgrcvd, 1, MPI_DOUBLE, left, tag, MPI_COMM_WORLD, &rstatus);
-                     
 
-    printf("%d: Sent %lf and got %lf\n", 
-                rank, msgsent, msgrcvd);
+    printf("%d: Sent %lf and got %lf\n", rank, msgsent, msgrcvd);
 
     ierr = MPI_Finalize();
     return 0;
@@ -59,7 +57,6 @@ int main(int argc, char **argv) {
 program secondmessage
 use mpi
 implicit none
-
 
     integer :: ierr, rank, comsize
     integer :: left, right
@@ -86,7 +83,7 @@ implicit none
     call MPI_Recv(msgrcvd, 1, MPI_DOUBLE_PRECISION, left, & 
                   tag, MPI_COMM_WORLD, status, ierr)
                   
-    print *, rank, 'Sent ', msgsent, 'and recvd ', msgrcvd)
+    print *, rank, 'Sent ', msgsent, 'and recvd ', msgrcvd
 
     call MPI_FINALIZE(ierr)
 
@@ -125,8 +122,8 @@ if(left < 0) left = comsize-1
 right = rank + 1
 if(right >= comsize ) right =0  
 
-call MPI_Ssend(msgsent, 1, MPI_DOUBLE_PRECISION,right, & tag, MPI_COMM_WORLD,ierr)  
-call MPI_Recv(msgrcvd, 1, MPI_DOUBLE_PRECISION,left, & tag, MPI_COMM_WORLD,status,ierr)
+call MPI_Ssend(msgsent, 1, MPI_DOUBLE_PRECISION, right, tag, MPI_COMM_WORLD, ierr)  
+call MPI_Recv( msgrcvd, 1, MPI_DOUBLE_PRECISION, left,  tag, MPI_COMM_WORLD, status, ierr)
 ```
 - And similarly in C.
 - So what happens?

@@ -10,11 +10,12 @@ exercises: 0
 
 ```
 $ mpicc --showme hello-world.c -o hello-world
-gcc -I/usr/local/include  
--pthread hello-world.c -o  hello-world -L/usr/local/lib  
--lmpi -lopen-rte -lopen-pal  
--ldl -Wl,--export-dynamic -lnsl  
--lutil -lm -ldl  
+
+gcc -I/usr/local/openmpi.gcc-1.2.9/include 
+  -pthread hello.c -o hello-c 
+  -L/usr/local/openmpi.gcc-1.2.9/lib
+  -lmpi -lopen-rte -lopen-pal -ldl 
+   -Wl,--export-dynamic -lnsl -lutil -lm -ldl
 ```
 - Just runs `gcc hello.world.c -o hello-world` (or whatever the appropriate compiler is - gfortran, icc, pgf90, etc) with a number of options (-I, -L, -l) to make sure right libraries, headers are available.
 

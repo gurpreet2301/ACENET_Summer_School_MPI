@@ -8,143 +8,135 @@ keypoints:
 
 ## Min, Mean, Max of numbers
 
-- We've just seen one common communications pattern: let's look at another.
-- Lets try some code that calculates the min/mean/max of a bunch of random numbers -1..1. Should go to -1,0,+1 for large N.
-* Each gets their partial results and sends it to some node, say node 0 (why node 0?) 
+We've just seen one common communications pattern: let's look at another.
+Let's try some code that calculates the min/mean/max of a bunch of random numbers -1..1. Should go to -1,0,+1 for large N.
+
+Each process gets a partial result and sends it to some node, say node 0 (why node 0?) 
 * ~/mpi/mpi-intro/minmeanmax.{c,f90}
-* How to MPI it?
-* Serial code:
+Here's the serial code. How do we parallelize it with MPI?
 
 **Fortran**:
 
 ```
-	program randomdata
-	implicit none
-	integer ,parameter :: nx=1500
-	real,allocate :: dat(:)
+program randomdata
+implicit none
+    integer ,parameter :: nx=1500
+    real,allocate :: dat(:)
 
-	integer :: i
-	real :: datamin,datamax,datamean
-	!  
-	! random data  
-	!
-	
-		allocate(dat(nx))
-		call random_seed(put=[(i,i=1,8])
-		call random_number(dat)
-		dat=2*dat-1.
+    integer :: i
+    real :: datamin,datamax,datamean
+    !  
+    ! random data  
+    !
+    allocate(dat(nx))
+    call random_seed(put=[(i,i=1,8])
+    call random_number(dat)
+    dat=2*dat-1.
+    !  
+    ! find min/mean/max  
+    !
+    datamin= minval(dat)
+    datamax= maxval(dat)
+    datamean= (1.*sum(dat))/nx
 
-	!  
-	! find min/mean/max  
-	!
-		datamin= minval(dat)
-		datamax= maxval(dat)
-		datamean= (1.*sum(dat))/nx
+    deallocate(dat)
 
-		deallocate(dat)
+    print *,'min/mean/max =', datamin, datamean, datamax
 
-	print *,'min/mean/max =', datamin, datamean, datamax
-
-	return
-	end
+    return
+    end
 ```
 
 **C**:
 
 ```
     /* .... */
-	/*  
-	 * generate random data  
-	 * /  
-	 
-	dat=(float *)malloc(nx * sizeof(float));
-	srand(0);
-	for(i=0;i<nx;i++)
-	{
-		dat[i]= 2*((float)rand()/RAND_MAX)-1;
-		
-	}
+    /*  
+     * generate random data  
+     * /  
+    dat=(float *)malloc(nx * sizeof(float));
+    srand(0);
+    for(i=0;i<nx;i++)
+    {
+    	dat[i]= 2*((float)rand()/RAND_MAX)-1;
+    }
 
-	/*  
-	 * find min/mean/max 
-	 */
-	
-	datamin = 1e+19;
-	datamax =1e+19;
-	datamean =0;
+    /*  
+     * find min/mean/max 
+     */
+    datamin = 1e+19;
+    datamax = -1e+19;
+    datamean = 0;
 
-	for(i=0;i<nx;i++){
-		if (dat[i] < datamin) datamin=dat[i];
-		if (dat[i] > datamax) datamax=dat[i];
-		datamean += dat[i];
-		}
-	datamean /= nx;
-	free(dat);
+    for(i=0;i<nx;i++){
+    	if (dat[i] < datamin) datamin=dat[i];
+    	if (dat[i] > datamax) datamax=dat[i];
+    	datamean += dat[i];
+    	}
+    datamean /= nx;
+    free(dat);
 
-	printf("Min/mean/max =%f,%f,%f\n",datamin,datamean,datamax);
+    printf("Min/mean/max =%f,%f,%f\n",datamin,datamean,datamax);
 ```
+
 - Let's try something like this, where everyone calculates their local min, mean, max, then sends everything to rank 0 (say) to combine the results:
 
 ![min mean max](../fig/min-mean-max.png)
 
 ```
     datamin = minval(dat)
-	datamax = maxval(dat)
-	datamean = (1.*sum(dat))/nx
-	deallocate(dat)  
+    datamax = maxval(dat)
+    datamean = (1.*sum(dat))/nx
+    deallocate(dat)  
 
-	if (rank /= 0) then
-            sendbuffer(1) = datamin
-            sendbuffer(2) = datamean
-            sendbuffer(3) = datamax
-            call MPI_SSEND(sendbugffer, 3, MPI_REAL,0,l ourtag, MPI_COMM_WORLD)  
-       else
-            globmin = datamin
-            globmax = datamax
-            globmean = datamean
+    if (rank /= 0) then
+        sendbuffer(1) = datamin
+        sendbuffer(2) = datamean
+        sendbuffer(3) = datamax
+        call MPI_Ssend(sendbuffer, 3, MPI_REAL,0,l ourtag, MPI_COMM_WORLD)  
+    else
+        globmin = datamin
+        globmax = datamax
+        globmean = datamean
             
-		do i=2,comsize 
-                call MPI_RECV(RECVBUFFER, 3, MPI_REAL, MPI_ANY_SOURCE, &ourtag, MPI_COMM_WORLD,status,ierr)
-                
-				if (recvbuffer(1) < globmin) globmin=recvbuffer(1)
-                if (recvbuffer(3) > globmax) globmax=recvbuffer(3)
-                globmean = globmean + recvbuffer(2)
-            enddo
-            
-				globmean = globmean / comsize
-       endif
+    	do i=2,comsize 
+            call MPI_Recv(recvbuffer, 3, MPI_REAL, MPI_ANY_SOURCE, &
+                          ourtag, MPI_COMM_WORLD, status, ierr)
+            if (recvbuffer(1) < globmin) globmin=recvbuffer(1)
+            if (recvbuffer(3) > globmax) globmax=recvbuffer(3)
+            globmean = globmean + recvbuffer(2)
+        enddo
+
+        globmean = globmean / comsize
+    endif
 
     print *,rank, ': min/mean/max = ', datamin, datamean, datamax
 ```
 
-- Q: are these sends/recvd adequately paired?
+- Q: Are these sends and receives adequately paired?
 
 ```
 
     if (rank != masterproc) {
-       ierr = MPI_Ssend(minmeanmax,3,MPI_FLOAT,masterproc,tag,MPI_COMM_WORLD );
+        ierr = MPI_Ssend(minmeanmax,3,MPI_FLOAT,masterproc,tag,MPI_COMM_WORLD);
     } 
-	else 
-	{
+    else {
         globminmeanmax[0] = datamin;
         globminmeanmax[2] = datamax;
         globminmeanmax[1] = datamean;
-        
-	for (i=1;i<size;i++) 
-	{
-            ierr = MPI_Recv(minmeanmax,,MPI_FLOAT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&rstatus);
-            globminmeanmax[1] += minmeanmax[1];
+    }   
+    for (i=1;i<size;i++) {
+        ierr = MPI_Recv(minmeanmax,,MPI_FLOAT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&rstatus);
+        globminmeanmax[1] += minmeanmax[1];
 
-            if (minmeanmax[0] < globminmeanmax[0])
-                globminmeanmax[0] = minmeanmax[0];
+        if (minmeanmax[0] < globminmeanmax[0])
+            globminmeanmax[0] = minmeanmax[0];
 
-            if (minmeanmax[2] > globminmeanmax[2])
-                globminmeanmax[2] = minmeanmax[2];
-
-     }
-        globminmeanmax[1] /= size;
-        printf("Min/mean/max = %f,%f,%f\n", globminmeanmax[0],globminmeanmax[1],globminmeanmax[2]);
+        if (minmeanmax[2] > globminmeanmax[2])
+            globminmeanmax[2] = minmeanmax[2];
     }
+    globminmeanmax[1] /= size;
+    printf("Min/mean/max = %f,%f,%f\n", globminmeanmax[0],globminmeanmax[1],globminmeanmax[2]);
 ```
 
 ## Inefficient!
@@ -165,27 +157,27 @@ __Reduction; works for a variety of operators(+,*,min,max...)__
 
 ```
 
-	print *,rank,': min/mean/max = ', datamin, datamean, datamax
-
+    print *,rank,': min/mean/max = ', datamin, datamean, datamax
        
-	!
-	! combine data
-	!
-       call MPI_ALLREDUCE(datamin, globmin, 1, MPI_REAL, MPI_MIN, & MPI_COMM_WORLD, ierr)
-	!
-	! to just send to task 0:
-	!       call MPI_REDUCE(datamin, globmin, 1, MPI_REAL, MPI_MIN,
-	!     & 0, MPI_COMM_WORLD, ierr)
-	!
-       call MPI_ALLREDUCE(datamax, globmax, 1, MPI_REAL, MPI_MAX, & MPI_COMM_WORLD, ierr)
-       call MPI_ALLREDUCE(datamean, globmean, 1, MPI_REAL, MPI_SUM, & MPI_COMM_WORLD, ierr)
-       globmean = globmean/comsize
-       if (rank == 0) then
-          print *, rank,': Global 
-		  min/mean/max=',globmin,globmean,globmax 
-       endif
-
-       
+    !
+    ! Combine data
+    !
+    call MPI_ALLREDUCE(datamin, globmin, 1, MPI_REAL, MPI_MIN, &
+                       MPI_COMM_WORLD, ierr)
+    !
+    ! If only task 0 needs the result:
+    !    call MPI_REDUCE(datamin, globmin, 1, MPI_REAL, MPI_MIN, &
+    !                    0, MPI_COMM_WORLD, ierr)
+    !
+    call MPI_ALLREDUCE(datamax, globmax, 1, MPI_REAL, MPI_MAX, &
+                       MPI_COMM_WORLD, ierr)
+    call MPI_ALLREDUCE(datamean, globmean, 1, MPI_REAL, MPI_SUM, &
+                       MPI_COMM_WORLD, ierr)
+    globmean = globmean/comsize
+    if (rank == 0) then
+        print *, rank,': Global min/mean/max=',globmin,globmean,globmax 
+    endif
+ 
 ```
 - MPI_Reduce and MPI_Allreduce
 - Performs a reduction and sends answer to one PE (Reduce) or all PEs (Allreduce)
