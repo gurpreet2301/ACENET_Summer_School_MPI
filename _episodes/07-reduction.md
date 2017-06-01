@@ -83,68 +83,78 @@ implicit none
 
 ![min mean max](../fig/min-mean-max.png)
 
-```
-    datamin = minval(dat)
-    datamax = maxval(dat)
-    datamean = (1.*sum(dat))/nx
-    deallocate(dat)  
+> ## Complete the code
+> Find the code in ```mpi-tutorial/mpi-intro/minmeanmax-mpi.{c,f90}```
+> It's missing a few parameters to MPI_Ssend and MPI_Recv.
+> Fill them in, compile it and test it.
+> Are the sends and receives adequately paired?
+>
+> > ## Solutions
+> > 
+> > Fortran fragment:
+> > ```
+> >     datamin = minval(dat)
+> >     datamax = maxval(dat)
+> >     datamean = (1.*sum(dat))/nx
+> >     deallocate(dat)  
+> > 
+> >     if (rank /= 0) then
+> >         sendbuffer(1) = datamin
+> >         sendbuffer(2) = datamean
+> >         sendbuffer(3) = datamax
+> >         call MPI_Ssend(sendbuffer, 3, MPI_REAL,0,l ourtag, MPI_COMM_WORLD)  
+> >     else
+> >         globmin = datamin
+> >         globmax = datamax
+> >         globmean = datamean
+> >             
+> >     	do i=2,comsize 
+> >             call MPI_Recv(recvbuffer, 3, MPI_REAL, MPI_ANY_SOURCE, &
+> >                           ourtag, MPI_COMM_WORLD, status, ierr)
+> >             if (recvbuffer(1) < globmin) globmin=recvbuffer(1)
+> >             if (recvbuffer(3) > globmax) globmax=recvbuffer(3)
+> >             globmean = globmean + recvbuffer(2)
+> >         enddo
+> > 
+> >         globmean = globmean / comsize
+> >     endif
+> > 
+> >     print *,rank, ': min/mean/max = ', datamin, datamean, datamax
+> > ```
+> > 
+> > C fragment:
+> > ```
+> > 
+> >     if (rank != masterproc) {
+> >         ierr = MPI_Ssend(minmeanmax,3,MPI_FLOAT,masterproc,tag,MPI_COMM_WORLD);
+> >     } 
+> >     else {
+> >         globminmeanmax[0] = datamin;
+> >         globminmeanmax[2] = datamax;
+> >         globminmeanmax[1] = datamean;
+> >     }   
+> >     for (i=1;i<size;i++) {
+> >         ierr = MPI_Recv(minmeanmax,,MPI_FLOAT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&rstatus);
+> >         globminmeanmax[1] += minmeanmax[1];
+> > 
+> >         if (minmeanmax[0] < globminmeanmax[0])
+> >             globminmeanmax[0] = minmeanmax[0];
+> > 
+> >         if (minmeanmax[2] > globminmeanmax[2])
+> >             globminmeanmax[2] = minmeanmax[2];
+> >     }
+> >     globminmeanmax[1] /= size;
+> >     printf("Min/mean/max = %f,%f,%f\n", globminmeanmax[0],globminmeanmax[1],globminmeanmax[2]);
+> > ```
+> {: .solution}
+{: .challenge}
 
-    if (rank /= 0) then
-        sendbuffer(1) = datamin
-        sendbuffer(2) = datamean
-        sendbuffer(3) = datamax
-        call MPI_Ssend(sendbuffer, 3, MPI_REAL,0,l ourtag, MPI_COMM_WORLD)  
-    else
-        globmin = datamin
-        globmax = datamax
-        globmean = datamean
-            
-    	do i=2,comsize 
-            call MPI_Recv(recvbuffer, 3, MPI_REAL, MPI_ANY_SOURCE, &
-                          ourtag, MPI_COMM_WORLD, status, ierr)
-            if (recvbuffer(1) < globmin) globmin=recvbuffer(1)
-            if (recvbuffer(3) > globmax) globmax=recvbuffer(3)
-            globmean = globmean + recvbuffer(2)
-        enddo
-
-        globmean = globmean / comsize
-    endif
-
-    print *,rank, ': min/mean/max = ', datamin, datamean, datamax
-```
-
-- Q: Are these sends and receives adequately paired?
-
-```
-
-    if (rank != masterproc) {
-        ierr = MPI_Ssend(minmeanmax,3,MPI_FLOAT,masterproc,tag,MPI_COMM_WORLD);
-    } 
-    else {
-        globminmeanmax[0] = datamin;
-        globminmeanmax[2] = datamax;
-        globminmeanmax[1] = datamean;
-    }   
-    for (i=1;i<size;i++) {
-        ierr = MPI_Recv(minmeanmax,,MPI_FLOAT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&rstatus);
-        globminmeanmax[1] += minmeanmax[1];
-
-        if (minmeanmax[0] < globminmeanmax[0])
-            globminmeanmax[0] = minmeanmax[0];
-
-        if (minmeanmax[2] > globminmeanmax[2])
-            globminmeanmax[2] = minmeanmax[2];
-    }
-    globminmeanmax[1] /= size;
-    printf("Min/mean/max = %f,%f,%f\n", globminmeanmax[0],globminmeanmax[1],globminmeanmax[2]);
-```
-
-## Inefficient!
-- Requires (P-1) messages,2(P-1) if everyone then needs to get the answer.
+## But not very efficient!
+- Requires (P-1) messages, 2(P-1) if everyone then needs to get the answer.
 
 ![inefficient](../fig/inefficient.png)
 
-## Better Summing
+## Better summing
 - Pairs of processors; send partial sums
 - Max messages received log2(P)
 - Can repeat to send total back
@@ -192,3 +202,7 @@ __Reduction; works for a variety of operators(+,*,min,max...)__
 - Don't necessarily know what goes on `under the hood'
 - Again, _can_ implement these patterns yourself with Sends/Recvs, but less clear, and probably slower.
 
+> ## Run the AllReduce code
+> Find the code in ```mpi-tutorial/mpi-intro/minmeanmax-allreduce.f90```
+> Examine it, compile it, test it.
+{: challenge}
