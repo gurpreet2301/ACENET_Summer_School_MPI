@@ -1,6 +1,6 @@
 ---
 title: "mpicc, mpif90, and mpirun"
-teaching: 0
+teaching: 5
 exercises: 0
 ---
 ## What mpicc/ mpif90 do

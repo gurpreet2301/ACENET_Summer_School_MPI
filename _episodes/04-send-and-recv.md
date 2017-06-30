@@ -1,6 +1,6 @@
 ---
 title: "Send and receive"
-teaching: 5
+teaching: 15
 exercises: 10
 ---
 
