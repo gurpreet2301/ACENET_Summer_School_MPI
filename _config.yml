@@ -11,7 +11,7 @@ title: "ACENET Summer School - MPI"
 # Contact.  This *must* include the protocol: if it's an email
 # address, it must look like "mailto:lessons@software-carpentry.org",
 # or if it's a URL, "https://gitter.im/username/ProjectName".
-contact: "mailto:joey.bernard@ace-net.ca"
+contact: "https://www.ace-net.ca"
 
 #------------------------------------------------------------
 # Generic settings (should not need to change).
@@ -22,7 +22,7 @@ kind: "lesson"
 
 # Magic to make URLs resolve both locally and on GitHub.
 # See https://help.github.com/articles/repository-metadata-on-github-pages/.
-repository: joeybernard/ACENET_Summer_School_MPI
+repository: acenet-arc/ACENET_Summer_School_MPI
 
 # Sites.
 amy_site: "https://amy.software-carpentry.org/workshops"
