@@ -26,4 +26,4 @@ Then, start an interactive shell on an Compute Canada computer node:
 Finally, ensure you have suitable environment modules loaded so you'll
 be able to run mpirun and mpicc or mpif90:
 
-``` $ module purge; module load gcc openmpi ```
+``` $ module purge; module load gcc openmpi pgplot ```
