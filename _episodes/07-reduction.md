@@ -102,7 +102,7 @@ implicit none
 > >         sendbuffer(1) = datamin
 > >         sendbuffer(2) = datamean
 > >         sendbuffer(3) = datamax
-> >         call MPI_Ssend(sendbuffer, 3, MPI_REAL,0,l ourtag, MPI_COMM_WORLD)  
+> >         call MPI_Ssend(sendbuffer, 3, MPI_REAL, 0, ourtag, MPI_COMM_WORLD, ierr)  
 > >     else
 > >         globmin = datamin
 > >         globmax = datamax
@@ -134,7 +134,7 @@ implicit none
 > >         globminmeanmax[1] = datamean;
 > >     }   
 > >     for (i=1;i<size;i++) {
-> >         ierr = MPI_Recv(minmeanmax,,MPI_FLOAT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&rstatus);
+> >         ierr = MPI_Recv(minmeanmax,3,MPI_FLOAT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&rstatus);
 > >         globminmeanmax[1] += minmeanmax[1];
 > > 
 > >         if (minmeanmax[0] < globminmeanmax[0])
