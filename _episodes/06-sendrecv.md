@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
 
 ## Something new: Sendrecv
 - This sort of logic works, but is quite complicated for such a simple pattern
-- Other MPI tools list us do this more easily.
+- Other MPI tools let us do this more easily.
 - Sendrecv: A blocking (send and receive) built in together, as opposed to a blocking send followed by a blocking receive.
 - Lets them happen simultaneously
 - Can automatically pair the sends/recvs!
