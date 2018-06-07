@@ -84,21 +84,22 @@ between processes.
 **MPI routines we know so far - C**
 
 ```
-	MPI_Status status;
+MPI_Status status;
 
-	ierr= MPI_Init(&argc,&argv);	
-	ierr =MPI_Comm_{size,rank}(communicator, &{size,rank});
-	ierr= MPI_Send(sendptr, count,MPI_TYPE, destination,tag,communicator);
-	ierr= MPI_Recv(rcvptr,count,MPI_TYPE, source,tag,communicator,&satus);
+ierr = MPI_Init(&argc,&argv);	
+ierr = MPI_Comm_size(communicator, &size);
+ierr = MPI_Comm_rank(communicator, &rank);
+ierr = MPI_Send(sendptr, count, MPI_TYPE, destination, tag, communicator);
+ierr = MPI_Recv(recvptr, count, MPI_TYPE, source,      tag, communicator, &status);
 
-	ierr=MPI_Sendrecv(sendptr,,count,MPI_TYPE,destination,tag,recvptr,count,MPI_TYPE,source
-	,tag,Communicator,&status);
+ierr = MPI_Sendrecv(sendptr, count, MPI_TYPE, destination, tag,
+                    recvptr, count, MPI_TYPE, source,      tag, communicator, &status);
 
-	ierr=MPI_Allreduce(&mydata, &globaldata,count,MPI_TYPE,MPI_OP,Communicator);
+ierr = MPI_Allreduce(&mydata, &globaldata, count, MPI_TYPE, MPI_OP, Communicator);
 
-	Communicator -> MPI_COMM_WORLD
-	MPI_Type ->MPI_FLOAT,MPI_DOUBLE,MPI_INT,MPI_CHAR...
-	MPI_OP -> MPI_SUM,MPI_MIN,MPI_MAX,...
+Communicator -> MPI_COMM_WORLD
+MPI_Type -> MPI_FLOAT, MPI_DOUBLE, MPI_INT, MPI_CHAR...
+MPI_OP -> MPI_SUM, MPI_MIN, MPI_MAX,...
 
 ```
 
@@ -110,13 +111,15 @@ between processes.
 integer status(MPI_STATUS_SIZE)
 
 call MPI_INIT(ierr)
-call MPI_COMM_{SIZE,RANK}(Communicator, {size,rank},ierr)
-call MPI_SSEND(sendarr, count, MPI_TYPE, destination,tag, Communicator)
-call MPI_RECV(rcvarr, count, MPI_TYPE, destination,tag,Communicator, status, ierr)
+call MPI_COMM_SIZE(Communicator, size, ierr)
+call MPI_COMM_RANK(Communicator, rank, ierr)
+call MPI_SSEND(sendarr, count, MPI_TYPE, destination, tag, Communicator, ierr)
+call MPI_RECV(recvarr,  count, MPI_TYPE, destination, tag, Communicator, status, ierr)
 
-call MPI_SENDRECV(sendptr, count, MPI_TYPE, destination,tag,recvptr, count, MPI_TYPE, source,tag,Communicator, status, ierr)
+call MPI_SENDRECV(sendptr, count, MPI_TYPE, destination, tag, &
+                  recvptr, count, MPI_TYPE, source,      tag, Communicator, status, ierr)
 	
-call MPI_ALLREDUCE(&mydata, &globaldata, count, MPI_TYPE,MPI_OP, Communicator, ierr)
+call MPI_ALLREDUCE(mydata, globaldata, count, MPI_TYPE, MPI_OP, Communicator, ierr)
 	
 Communicator -> MPI_COMM_WORLD
 MPI_Type -> MPI_REAL, MPI_DOUBLE_PRECISION, MPI_INTEGER, MPI_CHARACTER,...
