@@ -9,7 +9,7 @@ keypoints:
 ## Min, Mean, Max of numbers
 
 We've just seen one common communications pattern: let's look at another.
-Let's try some code that calculates the min/mean/max of a bunch of random numbers -1..1. Should go to -1,0,+1 for large N.
+Let's try some code that calculates the min/mean/max of a bunch of random numbers im the range -1..1. The min/mean/max should go to -1,0,+1 for large N.
 
 Each process gets a partial result and sends it to some node, say node 0 (why node 0?) 
 * ~/mpi/mpi-intro/minmeanmax.{c,f90}
