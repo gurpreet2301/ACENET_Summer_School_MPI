@@ -10,12 +10,6 @@ keypoints:
 
 ![1D diffusion - serial result](../fig/id_diffusion.png)
 
-```
-	cd mpi/diffusion. 
-    make diffusionf **or** make diffusionc 
-	./diffusionf **or** ./diffusionc
-	
-```
 ## Discretizing Derivatives
 
 - Done by finite differencing the discretized values
@@ -23,9 +17,8 @@ keypoints:
 - More accuracy - larger `stencils'
 
 ![Discretizing Derivatives](../fig/Discretizing_Derivatives.png)
-
 ## Diffusion Equation
-- Simple 1d PDE
+- 1d PDE
 - Each timestep, new data for T[i] requires old data for T[i+1], T[i],T[i-1]
 
 ![diffusion equation](../fig/diffusion_eq.png)
@@ -37,6 +30,16 @@ keypoints:
 - Fill guard cells with values such that the required boundary conditions are met
 
 ![guard cells](../fig/guardcells.png)
+
+## building & running serial version
+
+```
+$ cd mpi/diffusion
+$ module purge
+$ module load pgplot
+$ make diffusionf **or** make diffusionc 
+$ ./diffusionf **or** ./diffusionc
+```
 
 ## Domain Decomposition
 - A very common approach to parallelizing on distributed memory computers
@@ -69,6 +72,7 @@ between processes.
 	- then (re-)implement fixed-temperature BCs; temperature in first, last zones are fixed
 
 ## Hands-on: MPI diffusion
+
 - cp diffusionf.f90 diffusionfmpi.f90 or
 - cp diffusionc.c diffusionc-mpi.c or
 - Make an MPI-ed version of diffusion equation
