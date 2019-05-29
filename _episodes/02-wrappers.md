@@ -12,7 +12,7 @@ exercises: 0
 $ mpicc --showme hello-world.c -o hello-world
 
 gcc -I/usr/local/openmpi.gcc-1.2.9/include 
-  -pthread hello.c -o hello-c 
+  -pthread hello-world.c -o hello-world 
   -L/usr/local/openmpi.gcc-1.2.9/lib
   -lmpi -lopen-rte -lopen-pal -ldl 
    -Wl,--export-dynamic -lnsl -lutil -lm -ldl
