@@ -105,6 +105,8 @@ $ mpirun -np 4 ./secondmessage
 
 ![Results of secondmessage](../fig/hello.png)
 
+![send recieve](../fig/sendreciev.png)
+
 ## Implement periodic boundary conditions
 
 - `cp secondmessage.{c,f90} thirdmessage.{c,f90}`
@@ -127,11 +129,6 @@ call MPI_Recv( msgrcvd, 1, MPI_DOUBLE_PRECISION, left,  tag, MPI_COMM_WORLD, sta
 ```
 - And similarly in C.
 - So what happens?
-
-![send recieve](../fig/sendreciev.png)
-
-![processview](../fig/processview.png)
-
 
 ## Deadlock
 * A classic parallel bug
