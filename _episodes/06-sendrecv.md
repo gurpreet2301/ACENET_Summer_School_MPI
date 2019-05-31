@@ -30,7 +30,7 @@ keypoints:
 - Onus on the programmer to ensure that communication is complete before altering buffers (unlike buffered versions).
 - Allow overlap of computation with communication (but **DO NOT** alter the buffers being sent!!)
 - With great power comes great responsibility.
-- In this case there are simplier solutions.  
+- For this example there are simplier solutions, lets explore some.
 
 # Without using new MPI routines, how can we fix this?
 - How about this:
