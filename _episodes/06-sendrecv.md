@@ -28,7 +28,7 @@ keypoints:
 - Requires use of additional routines
   - MPI_Wait/MPI_Waitall to determine when communication has completed
 - Onus on the programmer to ensure that communication is complete before altering buffers (unlike buffered versions).
-- Allow overlap of computation with communication (but **DO NOT** alter the buffers being sent!!)
+- Allow overlap of computation with communication (but **DO NOT** alter the buffers being sent until after communicaiton is finished)
 - With great power comes great responsibility.
 - For this example there are simplier solutions, lets explore some.
 
