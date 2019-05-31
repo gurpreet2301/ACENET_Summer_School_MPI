@@ -6,12 +6,12 @@ keypoints:
 - "There are advanced MPI routines that solve most common problems. Don't reinvent the wheel."
 ---
 
-## Different versions of SEND
+## Different versions of SEND (& RECV)
 
-- SSEND: safe send; doesn't return until receive has started. Blocking, no buffering.
-- SEND: Undefined. Blocking, probably buffering
-- ISEND : Unblocking, no buffering
-- IBSEND: Unblocking, buffering
+- SSEND : safe send; doesn't return until receive has started. Blocking, no buffering.
+- SEND/RECV: Undefined. Blocking, probably buffering
+- ISEND/IRECV : Unblocking, no buffering
+- IBSEND (no IBRECV): Unblocking, buffering
 - Two orthogonal ideas: buffering and blocking.
 - The issue in the previous code was **blocking**: Send could not make progress until receive started, but everyone was sending but no one is receiving.
 
@@ -22,6 +22,15 @@ keypoints:
 - Message fails.
 - Program fails/hangs mysteriously.
 - (Can allocate your own buffers)
+
+# Non-blocking
+- The non-block (ISEND/IRECV) could be used to to solve the blocking issue.
+- Requires use of additional routines
+  - MPI_Wait/MPI_Waitall to determine when communication has completed
+- Onus on the programmer to ensure that communication is complete before altering buffers (unlike buffered versions).
+- Allow overlap of computation with communication (but **DO NOT** alter the buffers being sent!!)
+- With great power comes great responsibility.
+- In this case there are simplier solutions.  
 
 # Without using new MPI routines, how can we fix this?
 - How about this:
