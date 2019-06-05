@@ -24,6 +24,6 @@ Then, start an interactive shell on an Compute Canada computer node:
 ``` $ salloc --ntasks=4 --time=4:00:00 --account=acenet-wa --reservation=acenet-wr_cpu ```
 
 Finally, ensure you have suitable environment modules loaded so you'll
-be able to run mpirun and mpicc or mpif90:
+be able to run mpirun, mpicc or mpif90, and use pgplot:
 
-``` $ module purge; module load gcc openmpi pgplot ```
+```$ module purge; module load arch/avx2 StdEnv nixpkgs/16.09  intel/2016.4 pgplot```
