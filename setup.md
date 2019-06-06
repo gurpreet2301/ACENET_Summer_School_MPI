@@ -21,7 +21,7 @@ cloning the following repository from GitHub into your ACENET account:
 
 Then, start an interactive shell on an Compute Canada computer node:
 
-``` $ salloc --ntasks=4 --time=4:00:00 --account=acenet-wa --reservation=acenet-wr_cpu ```
+``` $ salloc --ntasks=4 --time=4:00:00 --account=acenet-wa --reservation=acenet-wr_cpu --x11```
 
 Finally, ensure you have suitable environment modules loaded so you'll
 be able to run mpirun, mpicc or mpif90, and use pgplot:
