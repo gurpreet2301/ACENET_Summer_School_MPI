@@ -10,6 +10,15 @@ keypoints:
 
 ![1D diffusion - serial result](../fig/id_diffusion.png)
 
+## Build & run serial version
+
+```
+$ cd mpi/diffusion
+$ module load pgplot
+$ make diffusionc    # or make diffusionf 
+$ ./diffusionc       # or ./diffusionf
+```
+
 ## Discretizing Derivatives
 
 - Done by finite differencing the discretized values
@@ -30,16 +39,6 @@ keypoints:
 - Fill guard cells with values such that the required boundary conditions are met
 
 ![guard cells](../fig/guardcells.png)
-
-## building & running serial version
-
-```
-$ cd mpi/diffusion
-$ module purge
-$ module load pgplot
-$ make diffusionf **or** make diffusionc 
-$ ./diffusionf **or** ./diffusionc
-```
 
 ## Domain Decomposition
 - A very common approach to parallelizing on distributed memory computers
