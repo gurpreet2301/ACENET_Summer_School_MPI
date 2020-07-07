@@ -10,7 +10,7 @@ objectives:
 keypoints:
 - C requires `#include <mpi.h>` and is compiled with `mpicc`
 - Fortran requires `use mpi` and is compiled with `mpif90`
-- `mpicc, mpif90` and others are *wrappers* around compilers
+- commands `mpicc, mpif90` and others are *wrappers* around compilers
 ---
 
 ## MPI is a *Library* for Message-Passing
