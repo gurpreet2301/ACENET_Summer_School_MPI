@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
 ```
 
 - `#include<mpi.h>` vs `use mpi`
-- C - functions **return** ierr;
+- C - functions **return** ierr
 - Fortran - **pass** ierr
 - Difference in parameters to MPI_Init
-
+- Beware!  Standard does not require that every process can write to stdout!
