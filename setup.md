@@ -20,16 +20,20 @@ $ cd mpi-tutorial
 Ensure you have suitable environment modules loaded so you'll
 be able to run `mpirun, mpicc` or `mpif90`, and use `pgplot`.
 If you run `which mpicc` it should respond with the path to a file.
-If it responds with "/usr/bin/which: no mpiccc in ..." a great
+If it responds with `/usr/bin/which: no mpicc in ...` a great
 long list of directories, then load the following environment 
 modules and try again:
 
-```$ module purge; module load gcc/7 openmpi/3 pgplot```
+```
+$ module purge; module load gcc/7 openmpi/3 pgplot
+```
 
 Later on the instructor may ask you to start an interactive shell
 using the job scheduler, like so:
 
-``` $ salloc --ntasks=4 --time=2:00:00 --x11```
+```
+$ salloc --ntasks=4 --time=2:00:00 --x11
+```
 
 The `--x11` flag may be required to allow some visualizations to work
 in the last exercise of the workshop. 
