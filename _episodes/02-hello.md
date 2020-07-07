@@ -67,6 +67,7 @@ end program helloworld
 
 - Just wrappers for other C or Fortran compilers that add various -I, -L clauses as appropriate
 - `--showme` (an Open MPI option) shows which options are being used, e.g.:
+
 ```
 $ mpicc --showme hello-world.c -o hello-world
 
@@ -76,6 +77,7 @@ gcc -I/usr/local/openmpi.gcc-1.2.9/include
   -lmpi -lopen-rte -lopen-pal -ldl
    -Wl,--export-dynamic -lnsl -lutil -lm -ldl
 ```
+
 - Just runs `gcc hello.world.c -o hello-world` with a number of options (-I, -L, -l) to make sure right libraries, headers are available.
 
 
