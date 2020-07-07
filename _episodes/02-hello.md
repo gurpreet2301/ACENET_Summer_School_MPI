@@ -91,17 +91,6 @@ gcc -I/usr/local/openmpi.gcc-1.2.9/include
    - Pairwise communications via messages
    - Collective operations via messages
    - Efficient routines for getting data from memory into messages and vice versa
-
-## Messages
-- Messages have a **sender** and a **receiver**
-- When you are sending a message, don't need to specify sender (it's the current processor),
-- A sent message has to be actively received by the receiving process
-
-![messages](../fig/messages.png)
-
-- MPI messages are a string of length __count__ all of some fixed MPI __type__
-- MPI types exist for characters, integers, floating point numbers, etc.
-- An arbitrary integer __tag__ is also included - helps keep things straight if lots of messages are sent. 
  
 ## Size of MPI Library   
 - Many, many functions (>200)
@@ -126,16 +115,15 @@ MPI_Finalize()
 >
 > > ## Solution
 > > ```
-> > $ cd mpi-tutorial/mpi-intro
+> > $ mpicc hello-world.c -o hello-c
+> > $ mpif90 hello-world.f90 -o hello-f
 > > 
-> > $ mpicc hello-world.c -o hello-world
-> > or 
-> > $ mpif90 hello-world.f90 -o hello-world
-> > 
-> > $ mpirun hello-world
-> > $ mpirun -np 2 hello-world
-> > $ mpirun -np 8 hello-world
+> > $ mpirun hello-c
+> > $ mpirun -np 2 hello-c
+> > $ mpirun -np 8 hello-c
 > > ```
+> > You can also find sample code in the `mpi-intro` subdirectory
+> > of the Git repository you were directed to in the workshop Setup.
 > {: .solution}
 {: .challenge}
 

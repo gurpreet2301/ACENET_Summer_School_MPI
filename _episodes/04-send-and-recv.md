@@ -3,6 +3,19 @@ title: "Send and receive"
 teaching: 15
 exercises: 10
 ---
+Our "Hello World" program doesn't actually pass any messages.  
+Let's fix this, but first we need to know a little more about messages.
+
+## Messages
+- Messages have a **sender** and a **receiver**
+- When you are sending a message, don't need to specify sender (it's the current processor),
+- A sent message has to be actively received by the receiving process
+
+![messages](../fig/messages.png)
+
+- MPI messages are a string of length __count__ all of some fixed MPI __type__
+- MPI types exist for characters, integers, floating point numbers, etc.
+- An arbitrary integer __tag__ is also included - helps keep things straight if lots of messages are sent. 
 
 ## Send and Receive
 
@@ -26,8 +39,7 @@ call MPI_RECV(rcvarr, count, MPI_TYPE, source, tag,Communicator, status, ierr)
 - Labeled with a non-negative tag
 - Receive: special status information can use to look up information about the message.
 
-## "Hello world" passes no messages (C)
-- Let's fix this
+## firstmessage.c
 - `cp hello.c firstmessage.c`
 - Edit with me
 - `mpicc -o firstmessage firstmessage.c`
@@ -67,8 +79,7 @@ int main(int argc, char **argv)
 }
 ```
 
-## "Hello world" passes no messages (Fortran)
-- Let's fix this
+## firstmessage.f90
 - `cp hello.f90 firstmessage.f90`
 - Edit with me
 - `mpif90 -o firstmessage firstmessage.f90`
