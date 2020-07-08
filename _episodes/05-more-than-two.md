@@ -139,7 +139,7 @@ call MPI_Recv( msgrcvd, 1, MPI_DOUBLE_PRECISION, left,  tag, MPI_COMM_WORLD, sta
 
 ## Deadlock
 * A classic parallel bug
-* Occurs when a cycle of tasks are for the others to finish.
+* Occurs when two (or more!) tasks are each waiting for the other to finish
 * Whenever you see a closed cycle, you likely have (or risk) deadlock.
 
 ![deadlock](../fig/deadlock.png)
