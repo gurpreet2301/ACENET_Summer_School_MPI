@@ -1,5 +1,5 @@
 ---
-Title: "References, and where to go next"
+Title: "Where to go next"
 teaching: 5
 exercises: 0
 questions:

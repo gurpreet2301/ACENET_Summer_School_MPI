@@ -2,8 +2,16 @@
 title: "Reduction"
 teaching: 15
 exercises: 10
+questions:
+- What is the smart way to do global sums and the like in MPI?
+objectives:
+- Write code to global minimum, mean (from sum), and maximum with basic functions
+- Do the same with higher-level functions and compare
 keypoints:
-- "Collective operations involve **all** processes in the communicator."
+- Collective operations involve all processes in the communicator.
+- Functions: MPI_Reduce, MPI_AllReduce
+- Types: MPI_FLOAT (C), MPI_REAL (Ftn)
+- Constants: MPI_MIN, MPI_MAX, MPI_SUM
 ---
 
 ## Min, Mean, Max of numbers
@@ -222,3 +230,4 @@ Here are some families of MPI routines that implement common communication patte
 By "families" we mean that there are several related routines in each family, e.g. `MPI_Scatter, MPI_IScatter, MPI_ScatterV, MPI_IScatterV`
 
 ![collective patterns](../fig/collectivepatterns.png)
+
