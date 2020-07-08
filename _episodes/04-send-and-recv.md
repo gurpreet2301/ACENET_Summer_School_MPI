@@ -2,7 +2,15 @@
 title: "Send and receive"
 teaching: 15
 exercises: 10
+questions:
+- How are messages passed?
+objectives:
+- Write code to pass a message from one process to another
+keypoints:
+- Functions: MPI\_Ssend, MPI\_Recv
+- Types: MPI\_CHAR, MPI\_Status
 ---
+
 Our "Hello World" program doesn't actually pass any messages.  
 Let's fix this, but first we need to know a little more about messages.
 
@@ -15,7 +23,7 @@ Let's fix this, but first we need to know a little more about messages.
 
 - MPI messages are a string of length __count__ all of some fixed MPI __type__
 - MPI types exist for characters, integers, floating point numbers, etc.
-- An arbitrary integer __tag__ is also included - helps keep things straight if lots of messages are sent. 
+- An arbitrary integer __tag__ is also included - helps keep things straight if lots of messages are sent, but usually unnecessary
 
 ## Send and Receive
 
@@ -35,9 +43,9 @@ call MPI_SSEND(sendarr, count, MPI_TYPE, destination,tag, Communicator, ierr)
 call MPI_RECV(rcvarr, count, MPI_TYPE, source, tag,Communicator, status, ierr)
 ```
 
-- Sends `count` of some `Type` to (`destination`, `Communicator`)
-- Labeled with a non-negative tag
-- Receive: special status information can use to look up information about the message.
+- Sends `count` of some `Type` to process of rank `destination` in `Communicator`
+- Tag must be non-negative, must be the same at send and at receive
+- Return argument `status` contains information about the message. 
 
 ## firstmessage.c
 - `cp hello.c firstmessage.c`
@@ -53,10 +61,10 @@ call MPI_RECV(rcvarr, count, MPI_TYPE, source, tag,Communicator, status, ierr)
 int main(int argc, char **argv)
  {
     int rank, size,ierr;
-    int sendto, recvfrom;       /* task to send,recv from */
+    int sendto, recvfrom;       /* tasks to send to and receive from */
     int ourtag=1;		/* shared tag to label msgs */
     char sendmessage[]="Hello"; /* text to send */
-    char getmessage[6];         /* text to recieve */
+    char getmessage[6];         /* place to receive */
     MPI_Status rstatus;         /* MPI_Recv status info */
 
     ierr = MPI_Init(&argc,&argv);
