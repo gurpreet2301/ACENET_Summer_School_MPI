@@ -2,10 +2,17 @@
 title: "More than two processes"
 teaching: 10
 exercises: 15
+questions:
+- How do we manage communication among many processes?
+objectives:
+- Write code to pass messages along a chain
+- Write code to pass messages around a ring
 keypoints:
-- "A typical MPI process calculates which other processes it will communicate with."
-- "If there is a closed loop of procs sending to one another, there is a risk of deadlock."
-- "All sends and receives must be paired, **at time of sending**."
+- A typical MPI process calculates which other processes it will communicate with.
+- If there is a closed loop of procs sending to one another, there is a risk of deadlock.
+- All sends and receives must be paired, **at time of sending**.
+- Types: MPI_DOUBLE (C), MPI_DOUBLE_PRECISION (Ftn)
+- Constants: MPI_PROC_NULL, MPI_ANY_SOURCE
 ---
 
 ## More complicated example:
