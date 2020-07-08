@@ -192,7 +192,7 @@ __Reduction; works for a variety of operators(+,*,min,max...)__
 - MPI_Reduce and MPI_Allreduce
 - Performs a reduction and sends answer to one PE (Reduce) or all PEs (Allreduce)
 
-## __Collective__ Operations
+## Collective Operations
 
 ![collective operation](../fig/collectiveoperation.png)
 
@@ -206,3 +206,19 @@ __Reduction; works for a variety of operators(+,*,min,max...)__
 > Find the code in ```mpi-tutorial/mpi-intro/minmeanmax-allreduce.f90```
 > Examine it, compile it, test it.
 {: challenge}
+
+## Common patterns of communication
+
+Here are some families of MPI routines that implement common communication patterns.
+
+- MPI_Bcast: Broadcast data from one process to all--- every process gets a copy
+- MPI_Scatter: Scatter data from one process to all--- every process gets a different slice
+- MPI_Gather: Collect data from all processes to one process, opposite of Scatter
+- MPI_AllGather: A variation on Gather where the result is then distributed to all processes
+- MPI_AllToAll: Scatter/Gather from all procs to all procs--- In other words, a complete exchange (of some data structure)
+- MPI_AllReduce: Global reduction (e.g. sum, max, min, ...) where the result is then broadcast to all procs
+- MPI_Barrier: Forces all processes to synchronize, i.e. wait for the last one to catch up before moving on
+
+By "families" we mean that there are several related routines in each family, e.g. `MPI_Scatter, MPI_IScatter, MPI_ScatterV, MPI_IScatterV`
+
+![collective patterns](../fig/collectivepatterns.png)
