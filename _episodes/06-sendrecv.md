@@ -172,15 +172,27 @@ int main(int argc, char **argv) {
 }
 ```
 
-## Something new: Sendrecv
+## Surely there's a better way?
 - This sort of logic works, but is quite complicated for such a simple pattern
 - Other MPI tools let us do this more easily.
 - <a href="https://www.open-mpi.org/doc/v3.1/man3/MPI_Sendrecv.3.php">MPI_Sendrecv</a>: A blocking (send and receive) built in together, as opposed to a blocking send followed by a blocking receive.
 - From the programmer's point-of-view they happen simultaneously
 - Automatically pairs the sends/recvs!
 - This is typical of MPI: With the very basics you can do almost anything, even if you have to jump through some hoops - but there are often more advanced routines which can help do things more easily and faster.
-- MPI_Sendrecv(sendbuf, sendcount, sendtype, destination, sendtag, recvbuf, recvcount, recvtype, source, recvtag, communicator, status)
 - destination and source do not have to be same; nor do type, size, or tag.  
+
+## Sendrecv = Send + Recv
+
+**C syntax**
+
+![send recieve](../fig/sendrecv_args.png)
+
+**FORTRAN syntax**
+
+![send reciev](../fig/sendrecv_args2.png)
+
+Why are there two different tags/types/counts?
+
 
 ```
 #include <stdio.h>
@@ -249,15 +261,3 @@ implicit none
     call MPI_Finalize(ierr)
 end program fifthmessage
 ```
-
-## Sendrecv = Send + Recv
-
-**C syntax**
-
-![send recieve](../fig/sendrecv_args.png)
-
-**FORTRAN syntax**
-![send reciev](../fig/sendrecv_args2.png)
-
-Why are there two different tags/types/counts?
-
