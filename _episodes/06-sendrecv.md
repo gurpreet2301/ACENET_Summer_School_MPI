@@ -2,8 +2,15 @@
 title: "Blocking and buffering"
 teaching: 10
 exercises: 15
+questions:
+- Is there an easier way to manage multiple processes?
+objectives:
+- Describe variants on MPI_Ssend
+- Describe buffering and blocking
+- Use MPI_SendRecv
 keypoints:
-- "There are advanced MPI routines that solve most common problems. Don't reinvent the wheel."
+- There are advanced MPI routines that solve most common problems. Don't reinvent the wheel.
+- Functions: MPI_SendRecv
 ---
 
 ## Different versions of SEND (& RECV)
@@ -13,7 +20,7 @@ keypoints:
 - ISEND/IRECV : Unblocking, no buffering
 - IBSEND (no IBRECV): Unblocking, buffering
 - Two orthogonal ideas: buffering and blocking.
-- The issue in the previous code was **blocking**: Send could not make progress until receive started, but everyone was sending but no one is receiving.
+- The issue in the previous code was **blocking**: Send could not make progress until receive started, but everyone was sending so no one was receiving.
 
 ## Buffering is dangerous!
 - Worst kind of danger: will usually work.
