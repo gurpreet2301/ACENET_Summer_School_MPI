@@ -124,9 +124,3 @@ program firstmessage
 end program firstmessage
 ```
 
-## Wildcard sources and destinations
-
-* Not used here, but worth knowing:
-* MPI_PROC_NULL basically ignores the relevant operation; can lead to cleaner code.
-* MPI_ANY_SOURCE is a wildcard; matches any source when receiving.
-

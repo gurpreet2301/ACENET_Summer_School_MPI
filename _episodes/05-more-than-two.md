@@ -23,6 +23,13 @@ keypoints:
 - Let's see how that works.
 - Imagine procs in a line. Calculate left neighbour, right neighbour.
 - Pass a number (let's use squared rank) to right neighbour, receive it from left.
+
+> ## Special sources and destinations
+> 
+> * MPI_PROC_NULL can be used as source or destination, basically causes the send or receive to be skipped. Can lead to cleaner code.
+> * MPI_ANY_SOURCE is a wildcard; matches any source when receiving.
+{: .callout}
+
 - **C**:
 
 ```
