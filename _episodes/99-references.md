@@ -25,3 +25,15 @@ There are online tutorials for learning MPI, including these from:
 * <a href="https://mpitutorial.com/tutorials/">mpitutorial.com</a> 
 * <a href="https://computing.llnl.gov/tutorials/mpi/">Lawrence Livermore National Labs</a>
 
+And finally, an anti-reference.  Or something.  In late 2018/early 2019
+Jonathan Dursi, who created the original version of this workshop, wrote an
+essay post entitled: 
+
+* <a href="https://www.dursi.ca/post/hpc-is-dying-and-mpi-is-killing-it.html">HPC is dying, and MPI is killing it</a>
+
+Its intended audience is people already working in high-performance computing,
+but has some very cogent things to say about what's wrong with MPI.  Too long;
+didn't read?  MPI is over 25 years old, and showing its age.  Computing is a 
+<a href="https://xkcd.com/1428/">fast-moving field</a>.  If you are lucky
+enough to be starting a brand-new project that requires massive parallelism,
+look carefully at newer technologies than MPI.
