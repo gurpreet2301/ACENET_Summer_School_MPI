@@ -1,7 +1,7 @@
 ---
 title: "Hello MPI World"
-teaching: 10
-exercises: 5
+teaching: 15
+exercises: 10
 questions:
 - How do I compile an MPI program?
 objectives:

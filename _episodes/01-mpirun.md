@@ -1,7 +1,7 @@
 ---
 title: "Introduction"
-teaching: 10
-exercises: 5
+teaching: 15
+exercises: 10
 questions:
 - "How do I run an MPI program?"
 objectives:

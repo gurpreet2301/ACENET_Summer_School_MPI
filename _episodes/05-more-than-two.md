@@ -1,6 +1,6 @@
 ---
 title: "More than two processes"
-teaching: 10
+teaching: 20
 exercises: 15
 questions:
 - How do we manage communication among many processes?
