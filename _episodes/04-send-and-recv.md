@@ -7,8 +7,8 @@ questions:
 objectives:
 - Write code to pass a message from one process to another
 keypoints:
-- Functions: MPI\_Ssend, MPI\_Recv
-- Types: MPI\_CHAR, MPI\_Status
+- Functions MPI\_Ssend, MPI\_Recv
+- Types MPI\_CHAR, MPI\_Status
 ---
 
 Our "Hello World" program doesn't actually pass any messages.  

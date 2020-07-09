@@ -11,8 +11,8 @@ keypoints:
 - A typical MPI process calculates which other processes it will communicate with.
 - If there is a closed loop of procs sending to one another, there is a risk of deadlock.
 - All sends and receives must be paired, **at time of sending**.
-- Types: MPI_DOUBLE (C), MPI_DOUBLE_PRECISION (Ftn)
-- Constants: MPI_PROC_NULL, MPI_ANY_SOURCE
+- Types MPI\_DOUBLE (C), MPI\_DOUBLE\_PRECISION (Ftn)
+- Constants MPI\_PROC\_NULL, MPI\_ANY\_SOURCE
 ---
 
 ## More complicated example:

@@ -10,7 +10,7 @@ objectives:
 - Use MPI_SendRecv
 keypoints:
 - There are advanced MPI routines that solve most common problems. Don't reinvent the wheel.
-- Functions: MPI_SendRecv
+- Function MPI_SendRecv
 ---
 
 Why did we get a deadlock in the last exercise?

@@ -9,9 +9,9 @@ objectives:
 - Do the same with higher-level functions and compare
 keypoints:
 - Collective operations involve all processes in the communicator.
-- Functions: MPI_Reduce, MPI_AllReduce
-- Types: MPI_FLOAT (C), MPI_REAL (Ftn)
-- Constants: MPI_MIN, MPI_MAX, MPI_SUM
+- Functions MPI_Reduce, MPI_AllReduce
+- Types MPI_FLOAT (C), MPI_REAL (Ftn)
+- Constants MPI_MIN, MPI_MAX, MPI_SUM
 ---
 
 ## Min, Mean, Max of numbers
