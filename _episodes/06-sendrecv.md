@@ -18,40 +18,41 @@ Why did we get a deadlock in the last exercise?
 Because `MPI_Ssend` **blocks** until the matching `MPI_Recv` has happened.
 So everyone was sending but no one was receiving.
 
-Quoting from <a href="http://www.netlib.org/utk/papers/mpi-book/node22.html">MPI: The Complete Reference</a>:
-
-<blockquote>
-...The question arises: if the send has completed, does this tell us anything
-about the receiving process? Can we know that the receive has finished, or
-even, that it has begun?
-
-Such questions of semantics are related to the nature of the underlying
-protocol implementing the operations. If one wishes to implement a protocol
-minimizing the copying and buffering of data, the most natural semantics might
-be the "rendezvous" version, where completion of the send implies the receive
-has been initiated (at least). On the other hand, a protocol that attempts to
-block processes for the minimal amount of time will necessarily end up doing
-more buffering and copying of data and will have "buffering" semantics.
-
-The trouble is, one choice of semantics is not best for all applications, nor
-is it best for all architectures. Because the primary goal of MPI is to
-standardize the operations, yet not sacrifice performance, the decision was
-made to include all the major choices for point to point semantics in the
-standard.
-
-The above complexities are manifested in MPI by the existence of modes for
-point to point communication. Both blocking and nonblocking communications have
-modes. The mode allows one to choose the semantics of the send operation and,
-in effect, to influence the underlying protocol of the transfer of data. 
-
-In standard mode the completion of the send does not necessarily mean that the
-matching receive has started, and no assumption should be made in the
-application program about whether the out-going data is buffered by MPI. In
-buffered mode the user can guarantee that a certain amount of buffering space
-is available. The catch is that the space must be explicitly provided by the
-application program. In synchronous mode a rendezvous semantics between sender
-and receiver is used...
-</blockquote>
+> ## Semantics and choices
+>
+> Quoting from <a href="http://www.netlib.org/utk/papers/mpi-book/node22.html">MPI: The Complete Reference</a>:
+> 
+> ...The question arises: if the send has completed, does this tell us anything
+> about the receiving process? Can we know that the receive has finished, or
+> even, that it has begun?
+> 
+> Such questions of semantics are related to the nature of the underlying
+> protocol implementing the operations. If one wishes to implement a protocol
+> minimizing the copying and buffering of data, the most natural semantics might
+> be the "rendezvous" version, where completion of the send implies the receive
+> has been initiated (at least). On the other hand, a protocol that attempts to
+> block processes for the minimal amount of time will necessarily end up doing
+> more buffering and copying of data and will have "buffering" semantics.
+> 
+> The trouble is, one choice of semantics is not best for all applications, nor
+> is it best for all architectures. Because the primary goal of MPI is to
+> standardize the operations, yet not sacrifice performance, the decision was
+> made to include all the major choices for point to point semantics in the
+> standard.
+> 
+> The above complexities are manifested in MPI by the existence of modes for
+> point to point communication. Both blocking and nonblocking communications have
+> modes. The mode allows one to choose the semantics of the send operation and,
+> in effect, to influence the underlying protocol of the transfer of data. 
+> 
+> In standard mode the completion of the send does not necessarily mean that the
+> matching receive has started, and no assumption should be made in the
+> application program about whether the out-going data is buffered by MPI. In
+> buffered mode the user can guarantee that a certain amount of buffering space
+> is available. The catch is that the space must be explicitly provided by the
+> application program. In synchronous mode a rendezvous semantics between sender
+> and receiver is used...
+{: .callout}
 
 ## Different versions of SEND (& RECV)
 
