@@ -24,10 +24,11 @@ at the Compute Canada documentation wiki.
 There are online tutorials for learning MPI, including these from:
 * <a href="https://mpitutorial.com/tutorials/">mpitutorial.com</a> 
 * <a href="https://computing.llnl.gov/tutorials/mpi/">Lawrence Livermore National Labs</a>
+* <a href="https://www.codingame.com/playgrounds/349/introduction-to-mpi/introduction-to-distributed-computing">Codingame.com</a>
 
-And finally, an anti-reference.  Or something.  In late 2018/early 2019
-Jonathan Dursi, who created the original version of this workshop, wrote an
-essay post entitled: 
+And finally, an anti-reference.  Or something.  In late 2018 or early 2019
+Jonathan Dursi, who created the original version of this workshop, published an
+essay entitled: 
 
 * <a href="https://www.dursi.ca/post/hpc-is-dying-and-mpi-is-killing-it.html">HPC is dying, and MPI is killing it</a>
 
