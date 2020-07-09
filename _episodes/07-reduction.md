@@ -3,7 +3,7 @@ title: "Reduction"
 teaching: 15
 exercises: 10
 questions:
-- What is the smart way to do global sums and the like in MPI?
+- What is the best way to do global sums and the like in MPI?
 objectives:
 - Write code to global minimum, mean (from sum), and maximum with basic functions
 - Do the same with higher-level functions and compare
@@ -16,11 +16,13 @@ keypoints:
 
 ## Min, Mean, Max of numbers
 
-We've just seen one common communications pattern: let's look at another.
-Let's try some code that calculates the min/mean/max of a bunch of random numbers im the range -1..1. The min/mean/max should go to -1,0,+1 for large N.
+We've just seen one communications pattern, now let's look at another.  Let us
+calculate the min/mean/max of a bunch of random numbers in the range -1..1. The
+min/mean/max should tend towards -1,0,+1 for large N.
 
 Each process gets a partial result and sends it to some node, say node 0 (why node 0?) 
 * ~/mpi/mpi-intro/minmeanmax.{c,f90}
+
 Here's the serial code. How do we parallelize it with MPI?
 
 **Fortran**:
@@ -211,7 +213,7 @@ __Reduction; works for a variety of operators(+,*,min,max...)__
 - Again, _can_ implement these patterns yourself with Sends/Recvs, but less clear, and probably slower.
 
 > ## Run the AllReduce code
-> Find the code in ```mpi-tutorial/mpi-intro/minmeanmax-allreduce.f90```
+> Find the code in ```mpi-tutorial/mpi-intro/minmeanmax-allreduce.{c,f90}```
 > Examine it, compile it, test it.
 {: challenge}
 
@@ -224,7 +226,7 @@ Here are some families of MPI routines that implement common communication patte
 - MPI_Gather: Collect data from all processes to one process, opposite of Scatter
 - MPI_AllGather: A variation on Gather where the result is then distributed to all processes
 - MPI_AllToAll: Scatter/Gather from all procs to all procs--- In other words, a complete exchange (of some data structure)
-- MPI_AllReduce: Global reduction (e.g. sum, max, min, ...) where the result is then broadcast to all procs
+- MPI_Allreduce: Global reduction (e.g. sum, max, min, ...) where the result is then broadcast to all procs
 - MPI_Barrier: Forces all processes to synchronize, i.e. wait for the last one to catch up before moving on
 
 By "families" we mean that there are several related routines in each family, e.g. `MPI_Scatter, MPI_IScatter, MPI_ScatterV, MPI_IScatterV`
