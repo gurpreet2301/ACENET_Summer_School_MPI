@@ -14,9 +14,9 @@ In `mpi-tutorial/diffusion` is some serial code which simulates
 the heat flow in a thin wire where we've suddenly heated up the middle
 very hot, then removed the heat source and let the wire equilibrate.
 
-The temperature profile at some point in time will look like this:
+The temperature profile at some point x along the wire, at some time will look like this:
 
-![1D diffusion - serial result](../fig/id_diffusion.png)
+![1D diffusion - serial result](../fig/1D_diffusion.png)
 
 ## Build & run serial version
 
@@ -34,11 +34,18 @@ $ ./diffusionc       # or ./diffusionf
 ```
 
 ## Diffusion Equation
-- 1-dimensional partial differential equation
-- dT/dt = kappa * d2T/dx2
-- ...where T is temperature, t is time, x is position, kappa is a given constant, the "diffusion coefficient"
+The change in temperature of the wire over time can be modelled using a 1-dimensional partial differential equation, the thermal diffusion equation.
+
+$$\frac{\partial T}{\partial t}=D\frac{\partial^2 T}{\partial x^2}$$
+
+...where T is temperature, t is time, x is position, D is the "diffusion coefficient".
+
+To use a partial differential equation to model how a quantity, in this case the temperature along a wire, changes over time we must discretize that quantity onto a finite set of grid points. The more grid points, the more closely it approximates a real continuous wire. At each of these grid points we can then set some initial temperature and from that use our thermal diffusion equation to calculate a temperature after some time passes, the time step. We can repeat this process moving from the last state to the next new state in order to calculate the temperature along the wire.
 
 ## Discretizing Derivatives
+How can we translate our continuous thermal diffusion equation to our descretized temperature grid?
+
+We can think of 
 
 - Approximate the derivatives with finite differences
 - Implicitly or explicitly involves interpolating data and taking derivative of the interpolant
