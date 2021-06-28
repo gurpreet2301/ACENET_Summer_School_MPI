@@ -26,7 +26,7 @@ long list of directories, then load the following environment
 modules and try again:
 
 ~~~
-$ module purge; module load gcc/7 openmpi/3 pgplot
+$ module purge; module load arch/avx2 gcc/7 openmpi/3 pgplot
 ~~~
 {: .language-bash}
 
