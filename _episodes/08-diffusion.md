@@ -146,7 +146,7 @@ The question then becomes, what do we do at the edges of the local sub domains o
 > - add standard MPI calls: init, finalize, comm_size, comm_rank
 > - Figure out how many points each process is responsible for (localsize=totpoints/size)
 > - Figure out neighbors, left/right
-> - Compute the new temperature starting at `start=localsize*rank`, end at `end=start+localsize`
+> - Compute the new temperature on the local grid
 > - At end of each time step, exchange guardcells; use sendrecv
 > - Get total error
 >
