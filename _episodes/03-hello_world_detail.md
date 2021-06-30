@@ -16,7 +16,7 @@ keypoints:
 - Functions MPI\_Init, MPI\_Finalize, MPI\_Comm\_size, MPI\_Comm\_rank are fundamental to any MPI program
 ---
 
-Lets start to explore the MPI functions in our `hello-world` program in detail. However before we do that lets first talk a little bit more about how MPI programs are executed to help better frame our discussion of these MPI functions.
+Let's start to explore the MPI functions in our `hello-world` program in detail. However before we do that let's first talk a little bit more about how MPI programs are executed to help better frame our discussion of these MPI functions.
 
 ## Program flow in MPI
 Each process running an MPI program executes the same program in order from start to finish as a serial program would. The difference is there are multiple copies of the same program running simultaneously on different processes. At a given time during execution, different processes are very likely executing different lines of code. From one run of the MPI code to another the order in which processes reach a given line of code may change. In other words there is no reason that node 2 will execute `statement 1` before node 1, as is illustrated below. This order of execution can change from run to run.
@@ -24,10 +24,10 @@ Each process running an MPI program executes the same program in order from star
 If you program happens to depend on this order of execution this can lead to something called a **race condition** in which results or the stability of the program can depend on which process gets to which line of code first. Dependencies of this sort can usually be avoided by using some sort of synchronization mechanism (e.g. a blocking MPI function such as [`MPI_Barrier`](https://www.open-mpi.org/doc/v3.1/man3/MPI_Barrier.3.php), [`MPI_Send`](https://www.open-mpi.org/doc/v3.1/man3/MPI_Send.3.php), etc. ) and/or careful program design.
 ![](../fig/program_flow.svg)
 
-At first glance this seems like running a program this way won't get us anything as we are just replicating the work. However, we can write the program in such a way that different process will work on different parts of the data and even perform different tasks. Lets start looking at the MPI functions in our `hello-world` program in a little more detail to see how.
+At first glance this seems like running a program this way won't get us anything as we are just replicating the work. However, we can write the program in such a way that different process will work on different parts of the data and even perform different tasks. Let's start looking at the MPI functions in our `hello-world` program in a little more detail to see how.
 
 ## Back to Hello-world
-Lets have a look at the C and Fortran `hello-world` programs again and talk about the MPI functions and constants.
+Let's have a look at the C and Fortran `hello-world` programs again and talk about the MPI functions and constants.
 
 ~~~
 #include <stdio.h>
@@ -100,7 +100,7 @@ for(int i=workStart;i<workStart+workSize;++i){
 ...
 ~~~
 {: .language-c}
-At this point we can already start to image how we can do some useful work with MPI. However, this simple example doesn't do much beyond what something like [GNU Parallel](https://docs.computecanada.ca/wiki/GNU_Parallel) could do for us with a serial program. MPI's functionality really starts to show when we start talking about message passing. However, before we dive into message passing lets talk about the `MPI_COMM_WORLD` constant and communicators in generall a little bit.
+At this point we can already start to image how we can do some useful work with MPI. However, this simple example doesn't do much beyond what something like [GNU Parallel](https://docs.computecanada.ca/wiki/GNU_Parallel) could do for us with a serial program. MPI's functionality really starts to show when we start talking about message passing. However, before we dive into message passing let's talk about the `MPI_COMM_WORLD` constant and communicators in generall a little bit.
 
 ## Communicators
 

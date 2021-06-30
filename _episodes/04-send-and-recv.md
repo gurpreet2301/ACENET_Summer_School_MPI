@@ -64,7 +64,7 @@ call MPI_RECV(rcvarr, count, MPI_TYPE, src_rank, tag,Communicator, status, ierr)
 
 
 ## Our first message
-Now that we have a basic understanding of how to send messages lets try it out.
+Now that we have a basic understanding of how to send messages let's try it out.
 
 ~~~
 $ cp hello-world.c firstmessage.c
@@ -146,7 +146,7 @@ end program firstmessage
 ~~~
 {: .language-fortran}
 
-Now lets compile our program with either
+Now let's compile our program with either
 ~~~
 $ mpicc -o firstmessage firstmessage.c
 ~~~
@@ -156,7 +156,7 @@ $ mpicc -o firstmessage firstmessage.c
 $ mpif90 -o firstmessage firstmessage.f90
 ~~~
 {: .language-bash}
-depending on C or Fortran. Now lets run it with two processes
+depending on C or Fortran. Now let's run it with two processes
 ~~~
 $ mpirun -np 2 ./firstmessage
 ~~~

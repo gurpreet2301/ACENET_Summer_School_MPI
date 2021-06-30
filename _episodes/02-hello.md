@@ -16,7 +16,7 @@ keypoints:
 - commands `mpicc, mpif90` and others are *wrappers* around compilers
 ---
 
-Lets create our first MPI program. If following along with C use the file name `hello-world.c` or if following along replace the file name extension with `.f90`. You will also need to add the Fortran code rather than C code to your files.
+Let's create our first MPI program. If following along with C use the file name `hello-world.c` or if following along replace the file name extension with `.f90`. You will also need to add the Fortran code rather than C code to your files.
 
 ~~~
 $ nano hello-world.c
@@ -94,10 +94,10 @@ gcc hello-world.c -o hello-world
 ~~~
 {: .output}
 
-So `mpicc` runs `gcc hello.world.c -o hello-world` with a number of options (`-I`, `-L`, `-l`) to make sure the right libraries and headers are available for compiling MPI programs. Lets take a look at this again for `mpif90` compiler.
+So `mpicc` runs `gcc hello.world.c -o hello-world` with a number of options (`-I`, `-L`, `-l`) to make sure the right libraries and headers are available for compiling MPI programs. Let's take a look at this again for `mpif90` compiler.
 
 
-Finally lets do the actual compilation with
+Finally let's do the actual compilation with
 ~~~
 $ mpicc hello-world.c -o hello-world
 ~~~

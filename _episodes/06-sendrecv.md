@@ -13,7 +13,7 @@ keypoints:
 - Function MPI_SendRecv
 ---
 
-Why did we get a deadlock with periodic boundaries but not when we didn't? To help answer that question lets take a look at the messaging passing process in a little more detail.
+Why did we get a deadlock with periodic boundaries but not when we didn't? To help answer that question let's take a look at the messaging passing process in a little more detail.
 
 ## Different ways to send messages
 What happens when a message is sent between processes? The data stored in memory of one process must be copied to the memory of the other process. This coping is not instantaneous especially since the two processes are very likely not starting to send and receive the message at exactly the same time. So how is this copying of memory between processes coordinated?
@@ -29,7 +29,7 @@ Buffering requires data to be copied into and out of a buffer which means more m
 
 Using **non-blocking** sends and receives allows one to **overlap computations with communication**, however **DO NOT** modify the send buffer or read from the receive buffer until the messages have completed. To know if a message has completed check with [`MPI_Wait`](https://www.open-mpi.org/doc/v3.1/man3/MPI_Wait.3.php) or [`MPI_Test`](https://www.open-mpi.org/doc/v3.1/man3/MPI_Test.3.php). To allow the greatest flexibility to optimize the message passing for particular use cases a number of send and receive functions have been defined which incorporate different combinations of **Synchronous**, **Buffered**, and **Blocking**/**Non-blocking** messaging.
 
-Lets have a look at some of the available send and receive functions.
+Let's have a look at some of the available send and receive functions.
 #### Sends
 - [`MPI_Send`](https://www.open-mpi.org/doc/v3.1/man3/MPI_Send.3.php): blocking, buffering or synchronous send. Buffering or synchronous depend on size of message and MPI library implementor's choice.
 - [`MPI_Ssend`](https://www.open-mpi.org/doc/v3.1/man3/MPI_Ssend.3.php): blocking, synchronous send with no buffering.
@@ -48,7 +48,7 @@ Wow there are a lot of different sends. Luckily after this we are going to keep 
 
 ## Why did we deadlock?
 
-Lets examine what happened before we added the periodic boundaries. In this case processor 3 was sending to `MPI_PROC_NULL` while processor 0 was receiving from `MPI_RPOC_NULL`. We used `MPI_Ssend` which is a blocking send. This means that the function will **block** program execution until at least some part of the matching `MPI_Recv` call has been initiated. This means that all processes end up waiting at the `MPI_Ssend` function for the matching `MPI_Recv` to begin. Luckily process 3 was sending to `MPI_PROC_NULL` and so skips the send and proceeds to the `MPI_Recv`. After this each process can proceed in turn after the call to the matching `MPI_Recv` has initiated.
+Let's examine what happened before we added the periodic boundaries. In this case processor 3 was sending to `MPI_PROC_NULL` while processor 0 was receiving from `MPI_RPOC_NULL`. We used `MPI_Ssend` which is a blocking send. This means that the function will **block** program execution until at least some part of the matching `MPI_Recv` call has been initiated. This means that all processes end up waiting at the `MPI_Ssend` function for the matching `MPI_Recv` to begin. Luckily process 3 was sending to `MPI_PROC_NULL` and so skips the send and proceeds to the `MPI_Recv`. After this each process can proceed in turn after the call to the matching `MPI_Recv` has initiated.
 
 ![Results of secondmessage](../fig/sending_right.svg)
 
