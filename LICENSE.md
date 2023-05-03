@@ -9,7 +9,7 @@ This material is derived from a framework created by the Software Carpentry
 and Data Carpentry projects under the [Creative Commons Attribution
 license][cc-by-human].
 
-The Compute Canada instructional material is
+This [ACENET](https://ace-net.ca/) instructional material is
 made available under the [Creative Commons Attribution
 license][cc-by-human]. The following is a human-readable summary of
 (and not a substitute for) the [full legal text of the CC BY 4.0
@@ -28,10 +28,13 @@ license terms.
 Under the following terms:
 
 * **Attribution**---You must give appropriate credit (mentioning that
-  your work is derived from work that is Copyright © Jonathan Dursi,
-  , Ross M. Dickson, Copyright © Compute Canada, 
+  your work is derived from work that is 
+  Copyright © Jonathan Dursi, Ross M. Dickson, 
+  Copyright © ACENET, 
+  Copyright © Compute Canada, 
+  Copyright © Digital Research Alliance of Canada,
   and Copyright © Software Carpentry and, where practical, 
-  linking to http://https://www.computecanada.ca/ and, 
+  linking to https://ace-net.ca/, https://alliancecan.ca/ and, 
   http://software-carpentry.org/), provide a [link to the license][cc-by-human],
   and indicate if changes were made. You may do
   so in any reasonable manner, but not in any way that suggests the
@@ -52,7 +55,8 @@ anything the license permits.  With the understanding that:
 ## Software
 
 Except where otherwise noted, the example programs and other software
-provided by Compute Canada are made available under the
+provided by the Digital Research Alliance of Canada are made 
+available under the
 [OSI][osi]-approved
 [MIT license][mit-license].
 
@@ -77,8 +81,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Trademark
 
-"Software Carpentry" and "Data Carpentry" and their respective logos
-are registered trademarks of [Community Initiatives][CI].
+"The Carpentries", "Software Carpentry" and "Data Carpentry" and their respective logos are
+registered trademarks of [Community Initiatives][CI].
 
 [cc-by-human]: https://creativecommons.org/licenses/by/4.0/
 [cc-by-legal]: https://creativecommons.org/licenses/by/4.0/legalcode
