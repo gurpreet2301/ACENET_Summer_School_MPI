@@ -70,14 +70,14 @@ program randomdata
   
   implicit none
   integer ,parameter :: nx=1500
-  real,allocate :: dat(:)
+  real,allocatable :: dat(:)
   
   integer :: i
   real :: datamin,datamax,datamean
   
   ! generate random data
   allocate(dat(nx))
-  call random_seed(put=[(i,i=1,8])
+  call random_seed(put=[(i,i=1,8)])
   call random_number(dat)
   dat=2*dat-1.
   
