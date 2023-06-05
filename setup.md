@@ -4,7 +4,7 @@ title: Setup
 permalink: /setup/
 ---
 The exercises in this lesson will be carried out on the virtual cluster we have
-been using the rest of the course, `pcs.ace-net.training`.  If you have a
+been using the rest of the course, `pcs2023-3.ace-net.training`.  If you have a
 Compute Canada account, you should be able to follow along equally well on any
 of the Compute Canada general-purpose clusters 
 [(Béluga, Cedar, Graham)](https://docs.computecanada.ca/wiki/Compute_Canada_Documentation).
@@ -26,7 +26,7 @@ long list of directories, then load the following environment
 modules and try again:
 
 ~~~
-$ module purge; module load arch/avx2 gcc/7 openmpi/3 pgplot
+$ module purge; module load arch/avx2 gcc openmpi pgplot
 ~~~
 {: .language-bash}
 
