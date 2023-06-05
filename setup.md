@@ -29,7 +29,8 @@ modules and try again:
 $ module --force purge all
 $ module load StdEnv/2020
 $ module load arch/avx2
-$ module load gcc openmpi pgplot
+$ module load gcc/11.3.0 openmpi/4.1.4 
+$ module load pgplot
 ~~~
 {: .language-bash}
 
