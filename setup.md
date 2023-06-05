@@ -26,7 +26,10 @@ long list of directories, then load the following environment
 modules and try again:
 
 ~~~
-$ module purge; module load arch/avx2 gcc openmpi pgplot
+$ module --force purge all
+$ module load StdEnv/2020
+$ module load arch/avx2
+$ module load gcc openmpi pgplot
 ~~~
 {: .language-bash}
 
