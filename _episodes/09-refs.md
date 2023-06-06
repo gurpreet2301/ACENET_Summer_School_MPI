@@ -34,7 +34,7 @@ essay entitled:
 
 Its intended audience is people already working in high-performance computing,
 but has some very cogent things to say about what's wrong with MPI.  Too long;
-didn't read?  MPI is over 25 years old, and showing its age.  Computing is a 
+didn't read?  MPI is over 30 years old, and showing its age.  Computing is a 
 <a href="https://xkcd.com/1428/">fast-moving field</a>.  If you are lucky
 enough to be starting a brand-new project that requires massive parallelism,
 look carefully at newer technologies than MPI.
