@@ -131,12 +131,12 @@ program firstmessage
   if(rank==0) then
     sendmessage='hello'
     sendto=1;
-    call MPI_Ssend(sendmessage, count, MPI_CHARACTER, sendto, ourtag,
+    call MPI_Ssend(sendmessage, count, MPI_CHARACTER, sendto, ourtag, &
       MPI_COMM_WORLD,ierr) 
     print *,rank, 'sent message <',sendmessage,'>'
   else if(rank==1) then
     recvfrom=0;
-    call MPI_Recv(getmessage, count, MPI_CHARACTER, recvfrom, ourtag,
+    call MPI_Recv(getmessage, count, MPI_CHARACTER, recvfrom, ourtag, &
       MPI_COMM_WORLD, rstatus,ierr)
     print *,rank, 'got message  <',getmessage,'>'
   endif
